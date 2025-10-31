@@ -62,6 +62,8 @@ export default function Products() {
             product.id === editingProduct.id ? result.data : product
           )
         );
+
+        
         showSuccess("Produit modifié avec succès !");
       } catch (error) {
         console.error("Erreur lors de la sauvegarde du produit :", error);
