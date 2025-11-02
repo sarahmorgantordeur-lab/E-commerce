@@ -22,9 +22,15 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const result = await register(
+<<<<<<< HEAD
             formData.data.data.products.name,
             formData.data.data.products.email,
             formData.data.data.products.password
+=======
+            formData.name,
+            formData.email,
+            formData.password
+>>>>>>> 5a2de49 (02 novembre)
         )
         if (result.success) {
             showSuccess(result.message)
@@ -109,7 +115,11 @@ export default function Register() {
                 <p className='mt-4 text-center text-sm text-gray-600'>
                     Vous avez déjà un compte ? 
                     <Link 
+<<<<<<< HEAD
                     to='/login' 
+=======
+                    to='/auth/login' 
+>>>>>>> 5a2de49 (02 novembre)
                     className='text-blue-600 hover:text-blue-700 font-medium'>
                         Connexion
                     </Link>
