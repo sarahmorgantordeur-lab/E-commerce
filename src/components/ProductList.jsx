@@ -1,96 +1,73 @@
 import { useState } from "react";
-<<<<<<< HEAD
-
-export default function ProductList( { products, handleDelete, handleEdit }) {
-  const [productList, setProductList] = useState([]);
-
-
-  const ProductCard = ({ product, handleDelete, handleEdit }) => {
-
-    return (
-      <div className="bg-200 rounded-lg">
-        <div className="bg-200 rounded-lg flex flex-col">
-          <h2 className="font-bold text-xl">{product.name}</h2>
-          <span className="font-bold">Prix : {product.price}</span>
-          <span className="font-bold">Stock :  {product.stock} </span>
-          <div className="flex flex-wrap m-0.5">
-            <button 
-            onClick={() => handleEdit(product)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:oultine-none focus:ring-2 focus:ring-blue-500">
-              Modifier
-            </button>
-
-            <button 
-            onClick={() => handleDelete(product.id)}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:oultine-none focus:ring-2 focus:ring-red-500">
-              Supprimer
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-
-    return (
-      <div className="bg-gray-200 flex flex-wrap rounded-lg">
-        <h1 className="font-bold text-2xl">Liste des poduits</h1>
-        {products.map((product) => (
-            <ProductCard 
-            key={product.id} 
-            product={product} 
-            handleDelete={handleDelete} 
-            handleEdit={handleEdit}/>
-        ))}
-      </div>
-    );
-=======
 import { ShoppingCart, ChevronDown } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import smartphone from "../assets/smartphone.jpg";
+import maison from "../assets/maison.jpg";
+import vetements from "../assets/vetements.jpg";
+import defaultImage from "../assets/default.webp";
 
 export default function ProductList({ products, loading }) {
   const [sortOrder, setSortOrder] = useState({});
   const [openDropdown, setOpenDropdown] = useState({});
   const { addToCart } = useAuth();
 
-  // Garde en mémoire la quantité choisie par produit
+  // Stocke les quantités choisies par produit
   const [quantities, setQuantities] = useState({});
 
   if (loading) {
-    return <p className="text-center mt-10 text-gray-600">Chargement des produits...</p>;
+    return (
+      <p className="text-center mt-10 text-gray-600">
+        Chargement des produits...
+      </p>
+    );
   }
 
-  const categories = [...new Set(products.map(p => p.category_name))];
+  const categories = [...new Set(products.map((p) => p.category_name))];
 
   const handleSortChange = (category, order) => {
-    setSortOrder(prev => ({ ...prev, [category]: order }));
-    setOpenDropdown(prev => ({ ...prev, [category]: false }));
+    setSortOrder((prev) => ({ ...prev, [category]: order }));
+    setOpenDropdown((prev) => ({ ...prev, [category]: false }));
   };
 
   const toggleDropdown = (category) => {
-    setOpenDropdown(prev => ({ ...prev, [category]: !prev[category] }));
+    setOpenDropdown((prev) => ({ ...prev, [category]: !prev[category] }));
   };
 
-  // 🔹 Changement de quantité
-  const handleQuantityChange = (productId, value) => {
-    const qty = Math.max(1, Number(value) || 1); // minimum 1
-    setQuantities(prev => ({ ...prev, [productId]: qty }));
+  const handleQuantityChange = (productId, value, stock) => {
+    let qty = Number(value) || 1;
+    if (qty < 1) qty = 1;
+    if (qty > stock) qty = stock;
+    setQuantities((prev) => ({ ...prev, [productId]: qty }));
   };
 
-  // 🔹 Ajout au panier avec quantité choisie
   const onAddToCart = (product) => {
     const qty = quantities[product.id] || 1;
     addToCart({ ...product, qty });
     alert(`✅ ${qty}x ${product.name} ajouté${qty > 1 ? "s" : ""} au panier !`);
   };
 
+  const getImageForCategory = (category_name) => {
+    switch (category_name) {
+      case "Électronique":
+        return smartphone;
+      case "Maison & Jardin":
+        return maison;
+      case "Vêtements":
+        return vetements;
+      default:
+        return defaultImage;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">Nos Produits</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-10 text-center">
+        Nos Produits
+      </h1>
 
-      {categories.map(category => {
+      {categories.map((category) => {
         const productsByCategory = products
-          .filter(p => p.category_name === category)
+          .filter((p) => p.category_name === category)
           .sort((a, b) =>
             sortOrder[category] === "desc" ? b.price - a.price : a.price - b.price
           );
@@ -100,7 +77,7 @@ export default function ProductList({ products, loading }) {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold text-gray-800">{category}</h2>
 
-              {/* Menu déroulant pour trier */}
+              {/* Dropdown Trier par prix */}
               <div className="relative inline-block text-left">
                 <button
                   onClick={() => toggleDropdown(category)}
@@ -133,28 +110,28 @@ export default function ProductList({ products, loading }) {
 
             {/* Grille des produits */}
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {productsByCategory.map(product => (
+              {productsByCategory.map((product) => (
                 <div
                   key={product.id}
                   className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow duration-300"
                 >
                   <div className="w-full h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    {product.image_url ? (
-                      <img
-                        src={product.image_url}
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                      />
-                    ) : (
-                      <span className="text-gray-400">Pas d'image disponible</span>
-                    )}
+                    <img
+                      src={getImageForCategory(product.category_name)}
+                      alt={product.name}
+                      className="max-h-[200px] rounded-lg object-cover transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
 
                   <div className="p-4 flex flex-col justify-between h-52">
                     <div>
-                      <h2 className="text-lg font-semibold text-gray-800 truncate">{product.name}</h2>
+                      <h2 className="text-lg font-semibold text-gray-800 truncate">
+                        {product.name}
+                      </h2>
                       <p className="text-sm text-gray-500 mt-1">Stock: {product.stock}</p>
-                      <p className="text-xl font-bold text-blue-600 mt-2">€{product.price.toFixed(2)}</p>
+                      <p className="text-xl font-bold text-blue-600 mt-2">
+                        €{product.price.toFixed(2)}
+                      </p>
                     </div>
 
                     {/* Sélecteur de quantité */}
@@ -163,9 +140,12 @@ export default function ProductList({ products, loading }) {
                       <input
                         type="number"
                         min="1"
+                        max={product.stock}
                         value={quantities[product.id] || 1}
-                        onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                        className="w-16 border border-gray-300 rounded-md px-2 py-1 text-center"
+                        onChange={(e) =>
+                          handleQuantityChange(product.id, e.target.value, product.stock)
+                        }
+                        className="w-16 text-center border rounded-md"
                       />
                     </div>
 
@@ -186,5 +166,4 @@ export default function ProductList({ products, loading }) {
       })}
     </div>
   );
->>>>>>> 5a2de49 (02 novembre)
 }

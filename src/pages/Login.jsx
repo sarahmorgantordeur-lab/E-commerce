@@ -82,11 +82,7 @@ export default function Login() {
             >
               Se connecter
             </button>
-<<<<<<< HEAD
-            <p className='text-sm text-gray-500'>Pas encore de compte ? <a href='/register' className='text-blue-500'>Inscrivez-vous</a></p>
-=======
             <p className='text-sm text-gray-500'>Pas encore de compte ? <a href='/auth/register' className='text-blue-500'>Inscrivez-vous</a></p>
->>>>>>> 5a2de49 (02 novembre)
           </form>
         </div>
       </div>

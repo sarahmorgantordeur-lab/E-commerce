@@ -1,8 +1,10 @@
 import { useAuth } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Panier() {
+  const navigate = useNavigate();
   const { cart, removeFromCart } = useAuth();
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty || 1, 0);
@@ -54,6 +56,12 @@ export default function Panier() {
                 <div className="flex justify-between"><span>TVA (21%)</span><span>€{vat.toFixed(2)}</span></div>
                 <div className="border-t pt-3 mt-3 flex justify-between font-semibold"><span>Total</span><span>€{total.toFixed(2)}</span></div>
               </div>
+              <button
+                onClick={() => navigate("/commandes")}
+                className="w-full mt-6 bg-blue-600 text-white font-semibold py-3 rounded-full shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105"
+              >
+                Commander
+              </button>
             </aside>
           </div>
         )}

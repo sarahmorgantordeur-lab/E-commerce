@@ -33,15 +33,6 @@ export default function Footer() {
               <Link to="/auth/login" className="hover:text-blue-600 transition-colors">Connexion</Link>
               <Link to="/auth/register" className="hover:text-blue-600 transition-colors">Inscription</Link>
             </div>
-
-            {/* Stock et utilisateur */}
-            {user && (
-              <div className="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-1 text-gray-700 shadow-sm">
-                <User className="w-4 h-4 text-blue-600"/>
-                <span className="text-sm font-medium">Bonjour {user?.data?.name}</span>
-              </div>
-            )}
-
           </div>
         </div>
 
