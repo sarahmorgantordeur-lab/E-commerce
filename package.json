@@ -10,22 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "axios": "^1.12.2",
-=======
     "axios": "^1.13.1",
     "lucide-react": "^0.552.0",
->>>>>>> 5a2de49 (02 novembre)
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
-<<<<<<< HEAD
-=======
     "@tailwindcss/vite": "^4.1.16",
->>>>>>> 5a2de49 (02 novembre)
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.1.0",
@@ -33,10 +26,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-<<<<<<< HEAD
-    "vite": "^7.1.7"
-=======
     "vite": "^7.1.12"
->>>>>>> 5a2de49 (02 novembre)
   }
 }
